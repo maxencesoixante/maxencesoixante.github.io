@@ -10,25 +10,59 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F3F6FA;
+    --paper:#F5F5F7;
     --surface:#FFFFFF;
-    --ink:#0F1E2C;
-    --steel:#2B5C8A;
-    --heat:#EA6A2C;
-    --slate:#7E8B99;
-    --line:#DDE4EC;
-    --line-strong:#C6D0DB;
+    --ink:#1D1D1F;
+    --steel:#515154;
+    --heat:#0071E3;
+    --slate:#636366;
+    --line:#D2D2D7;
+    --line-strong:#AEAEB2;
     --display:'Archivo', system-ui, sans-serif;
     --body:'Inter', system-ui, sans-serif;
     --mono:'IBM Plex Mono', ui-monospace, monospace;
     --maxw:1120px;
     --r:14px;
   }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#000000;
+      --surface:#1C1C1E;
+      --ink:#F5F5F7;
+      --steel:#AEAEB2;
+      --heat:#2997FF;
+      --slate:#8E8E93;
+      --line:#3A3A3C;
+      --line-strong:#48484A;
+    }
+  }
+  [data-theme="dark"]{
+    --paper:#000000;
+    --surface:#1C1C1E;
+    --ink:#F5F5F7;
+    --steel:#AEAEB2;
+    --heat:#2997FF;
+    --slate:#8E8E93;
+    --line:#3A3A3C;
+    --line-strong:#48484A;
+  }
+  [data-theme="light"]{
+    --paper:#F5F5F7;
+    --surface:#FFFFFF;
+    --ink:#1D1D1F;
+    --steel:#515154;
+    --heat:#0071E3;
+    --slate:#636366;
+    --line:#D2D2D7;
+    --line-strong:#AEAEB2;
+  }
+
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
-    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    transition:background .25s,color .25s}
   a{color:inherit}
   img{max-width:100%;display:block}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
@@ -39,14 +73,25 @@
 
   /* NAV */
   header.nav{position:sticky;top:0;z-index:50;background:rgba(243,246,250,.82);
-    backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
+    backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line);
+    transition:background .25s,border-color .25s}
+  [data-theme="dark"] header.nav,
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]) header.nav{background:rgba(13,26,38,.88)}
+  }
+  [data-theme="dark"] header.nav{background:rgba(13,26,38,.88)}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
   .brand{font-family:var(--display);font-weight:800;letter-spacing:-.01em;font-size:18px;text-decoration:none}
   .brand .dot{color:var(--heat)}
+  .nav-right{display:flex;align-items:center;gap:16px}
   .nav-links{display:flex;gap:28px;align-items:center}
   .nav-links a{font-family:var(--mono);font-size:13px;letter-spacing:.04em;text-decoration:none;
     color:var(--ink);opacity:.78;transition:opacity .2s,color .2s}
   .nav-links a:hover{opacity:1;color:var(--steel)}
+  .theme-toggle{background:none;border:1px solid var(--line-strong);border-radius:8px;
+    width:36px;height:34px;cursor:pointer;font-size:15px;color:var(--ink);
+    display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
+  .theme-toggle:hover{border-color:var(--heat);color:var(--heat)}
   .nav-toggle{display:none;background:none;border:1px solid var(--line-strong);border-radius:8px;
     width:40px;height:38px;cursor:pointer;align-items:center;justify-content:center}
   .nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{content:"";display:block;
@@ -59,23 +104,16 @@
   .hero-grid{display:grid;grid-template-columns:1.08fr .82fr;gap:54px;align-items:center}
   .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,6.4vw,70px);
     line-height:.97;letter-spacing:-.025em;margin:6px 0 0}
-  .accroche{font-family:var(--display);font-weight:700;font-size:clamp(15px,2vw,21px);
-    letter-spacing:.04em;margin:22px 0 0;color:var(--steel)}
-  .accroche b{color:var(--heat)}
-  .hero p.lede{font-size:18px;color:#33485a;margin:20px 0 0;max-width:50ch}
+  .hero p.lede{font-size:18px;color:var(--slate);margin:20px 0 0;max-width:50ch;line-height:1.55}
   .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
   .btn{font-family:var(--mono);font-size:13px;letter-spacing:.03em;text-decoration:none;
     padding:13px 20px;border-radius:10px;border:1px solid var(--ink);
-    transition:transform .15s,background .2s,color .2s,border-color .2s}
-  .btn:hover{transform:translateY(-2px)}
-  .btn.primary{background:var(--ink);color:#fff}
-  .btn.primary:hover{background:var(--heat);border-color:var(--heat)}
+    transition:transform .2s cubic-bezier(0.16,1,0.3,1),background .2s,color .2s,border-color .2s,box-shadow .2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,30,44,.12)}
+  .btn.primary{background:var(--heat);color:#fff;border-color:var(--heat)}
+  .btn.primary:hover{background:#005BBB;border-color:#005BBB;box-shadow:0 6px 20px rgba(0,113,227,.28)}
   .btn.ghost{background:transparent}
   .btn.ghost:hover{border-color:var(--heat);color:var(--heat)}
-  .meta-row{display:flex;flex-wrap:wrap;gap:26px;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
-  .meta-row div{display:flex;flex-direction:column;gap:3px}
-  .meta-row .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel)}
-  .meta-row .v{font-size:14.5px;font-weight:500}
 
   /* PHOTO */
   .photo-card{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line-strong);
@@ -89,16 +127,17 @@
   .photo-frame::after{bottom:-7px;right:-7px;border-bottom:2px solid var(--steel);border-right:2px solid var(--steel)}
 
   /* accent divider */
-  .accent-line{height:6px;border-radius:6px;margin-top:34px;
-    background:linear-gradient(90deg,#16386f,#2b5c8a,#2fb0b0,#f2c14e,#ea6a2c)}
+  .accent-line{height:5px;border-radius:5px;margin-top:34px;
+    background:linear-gradient(90deg,#5AC8FA,var(--heat))}
 
   /* SECTIONS */
   section{padding:70px 0;border-top:1px solid var(--line)}
-  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:38px}
-  .sec-num{font-family:var(--mono);font-size:13px;color:var(--heat)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:38px;
+    position:relative;padding-left:18px}
+  .sec-head::before{content:"";position:absolute;left:0;top:3px;bottom:3px;
+    width:3px;border-radius:2px;background:var(--heat)}
   h2{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.4vw,38px);
     letter-spacing:-.02em;margin:0;line-height:1.05}
-  .sec-sub{font-family:var(--mono);font-size:12px;color:var(--slate);margin:-26px 0 34px;letter-spacing:.03em}
 
   /* TIMELINE (Expériences) */
   .timeline{position:relative;margin-left:8px;padding-left:30px;border-left:2px solid var(--line-strong)}
@@ -106,34 +145,42 @@
   .tl-item:last-child{padding-bottom:0}
   .tl-item::before{content:"";position:absolute;left:-39px;top:5px;width:14px;height:14px;border-radius:50%;
     background:var(--surface);border:2px solid var(--steel)}
-  .tl-item.now::before{background:var(--heat);border-color:var(--heat);box-shadow:0 0 0 5px rgba(234,106,44,.16)}
+  .tl-item.now::before{background:var(--heat);border-color:var(--heat);box-shadow:0 0 0 5px rgba(0,113,227,.16)}
   .tl-year{font-family:var(--mono);font-size:12px;color:var(--heat);letter-spacing:.04em}
   .tl-item h4{font-family:var(--display);font-size:18px;margin:3px 0 1px}
   .tl-role{font-size:14px;color:var(--steel);margin:0 0 6px}
-  .tl-item p{margin:0;font-size:15px;color:#3a4d5d;max-width:62ch}
+  .tl-item p{margin:0;font-size:15px;color:var(--slate);max-width:62ch}
 
   /* CARDS (Projets) */
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;
-    display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s;
+    display:flex;flex-direction:column;
+    transition:transform .2s cubic-bezier(0.16,1,0.3,1),box-shadow .2s,border-color .2s;
     position:relative;cursor:pointer}
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,30,44,.10);border-color:var(--line-strong)}
   .card .ix{font-family:var(--mono);font-size:12px;color:var(--slate)}
   .card h3{font-family:var(--display);font-size:21px;margin:8px 0 8px;letter-spacing:-.01em}
-  .card p{margin:0 0 16px;color:#34485a;font-size:15.5px}
+  .card p{margin:0 0 16px;color:var(--slate);font-size:15.5px}
   .card-link{position:absolute;inset:0;border-radius:var(--r)}
   .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
   .tag{font-family:var(--mono);font-size:11px;color:var(--steel);background:#EEF3F8;
     border:1px solid var(--line);border-radius:999px;padding:4px 11px;letter-spacing:.02em}
-  .tag.hot{color:var(--heat);background:#FDF0E8;border-color:#F6D8C6}
+  .tag.hot{color:var(--heat);background:#E8F1FF;border-color:#C0D8FF}
+  [data-theme="dark"] .tag,[data-theme="dark"] .tag.hot{background:var(--surface)}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]) .tag{background:var(--surface)}
+    :root:not([data-theme="light"]) .tag.hot{background:var(--surface)}
+  }
 
-  /* ENGAGEMENT */
-  .engage{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .eng{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px}
-  .eng .yr{font-family:var(--mono);font-size:12px;color:var(--heat)}
-  .eng h4{font-family:var(--display);font-size:18px;margin:8px 0 4px}
-  .eng .who{font-size:13px;color:var(--steel);margin:0 0 10px}
-  .eng p{margin:0;font-size:14.5px;color:#3a4d5d}
+  /* ENGAGEMENT — liste horizontale */
+  .engage{display:flex;flex-direction:column;gap:0}
+  .eng{display:grid;grid-template-columns:140px 1fr;gap:28px;padding:26px 0;
+    border-top:1px solid var(--line)}
+  .eng:last-child{border-bottom:1px solid var(--line)}
+  .eng .yr{font-family:var(--mono);font-size:12px;color:var(--heat);letter-spacing:.04em;padding-top:3px}
+  .eng h4{font-family:var(--display);font-size:18px;margin:0 0 3px}
+  .eng .who{font-size:13px;color:var(--steel);margin:0 0 8px}
+  .eng p{margin:0;font-size:15px;color:var(--slate)}
 
   /* DISTINCTIONS */
   .honors{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
@@ -148,7 +195,7 @@
   .links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
   .links a{display:flex;align-items:center;gap:12px;text-decoration:none;font-size:15px;
     padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);
-    transition:border-color .2s,transform .15s}
+    transition:border-color .2s,transform .2s cubic-bezier(0.16,1,0.3,1)}
   .links a:hover{border-color:var(--heat);transform:translateX(3px)}
   .links .lab{font-family:var(--mono);font-size:11px;color:var(--steel);letter-spacing:.08em;
     text-transform:uppercase;min-width:78px}
@@ -157,13 +204,22 @@
   .field label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
     text-transform:uppercase;color:var(--steel);margin-bottom:6px}
   .field input,.field textarea{width:100%;font-family:var(--body);font-size:15px;color:var(--ink);
-    background:var(--paper);border:1px solid var(--line-strong);border-radius:9px;padding:11px 13px}
+    background:var(--paper);border:1px solid var(--line-strong);border-radius:9px;padding:11px 13px;
+    transition:border-color .2s,outline-color .2s}
   .field input:focus,.field textarea:focus{outline:2px solid var(--heat);outline-offset:1px;border-color:var(--heat)}
   .field textarea{resize:vertical;min-height:110px}
   button.send{font-family:var(--mono);font-size:13px;letter-spacing:.03em;cursor:pointer;
-    background:var(--ink);color:#fff;border:none;border-radius:10px;padding:13px 22px;transition:background .2s,transform .15s}
+    background:var(--ink);color:var(--paper);border:none;border-radius:10px;padding:13px 22px;
+    transition:background .2s,transform .2s cubic-bezier(0.16,1,0.3,1)}
   button.send:hover{background:var(--heat);transform:translateY(-2px)}
-  .form-note{font-size:12.5px;color:var(--slate);margin:12px 0 0}
+  .form-note{font-size:12.5px;color:var(--steel);margin:12px 0 0;display:none}
+  .form-note.visible{display:block}
+
+  /* MASCOT */
+  .mascot{width:108px;height:auto;display:block;margin-top:28px;
+    animation:mascot-float 3.2s ease-in-out infinite}
+  @keyframes mascot-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @media (prefers-reduced-motion:reduce){.mascot{animation:none}}
 
   footer{border-top:1px solid var(--line);padding:34px 0;margin-top:10px}
   .foot-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
@@ -176,16 +232,19 @@
     .hero-grid{grid-template-columns:1fr;gap:34px}
     .photo-frame{max-width:340px;margin:0 auto;order:-1}
     .grid,.honors,.contact{grid-template-columns:1fr}
-    .engage{grid-template-columns:1fr}
+    .eng{grid-template-columns:100px 1fr;gap:16px}
     .nav-links{position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;
       background:var(--paper);border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .25s ease}
     .nav-links.open{max-height:360px}
     .nav-links a{padding:15px 28px;width:100%;border-top:1px solid var(--line);opacity:1}
     .nav-toggle{display:flex}
   }
-  @media (max-width:560px){.wrap{padding:0 20px}.meta-row{gap:18px}}
+  @media (max-width:560px){
+    .wrap{padding:0 20px}
+    .eng{grid-template-columns:1fr;gap:6px;padding:20px 0}
+  }
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(0.16,1,0.3,1),transform .6s cubic-bezier(0.16,1,0.3,1)}
   .reveal.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 </style>
@@ -195,7 +254,10 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="#top">Maxence Dubois<span class="dot">.</span></a>
-    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span></button>
+    <div class="nav-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème">☾</button>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span></button>
+    </div>
     <nav class="nav-links" id="menu">
       <a href="#experiences">Expériences</a>
       <a href="#projets">Projets</a>
@@ -211,23 +273,16 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <p class="eyebrow">Élève ingénieur — ÉTS × Arts et Métiers</p>
+        <p class="eyebrow">Élève ingénieur · ÉTS × Arts et Métiers</p>
         <h1>Maxence<br>Dubois</h1>
-        <p class="accroche"><b>Étudiant.</b> Chercheur. Ingénieur.</p>
-        <p class="lede">Étudiant ingénieur en double diplôme entre l'ÉTS de Montréal et les Arts et Métiers. Curieux et polyvalent, j'ai bâti mon parcours à la croisée de l'aéronautique, de la robotique et du nucléaire.</p>
+        <p class="lede">Double diplôme ÉTS Montréal × Arts et Métiers, avec des expériences en aéronautique, robotique et nucléaire.</p>
         <div class="cta-row">
           <a class="btn primary" href="#experiences">Voir mon parcours</a>
           <a class="btn ghost" href="#contact">Me contacter</a>
         </div>
-        <div class="meta-row">
-          <div><span class="k">Localisation</span><span class="v">Montréal (QC), Canada</span></div>
-          <div><span class="k">Formation</span><span class="v">ÉTS × Arts et Métiers</span></div>
-          <div><span class="k">Langues</span><span class="v">FR (Langue Natale) · EN (TOEIC 820) · ES (Intermédiaire)</span></div>
-        </div>
       </div>
       <div class="photo-frame reveal">
         <div class="photo-card">
-          <!-- Pour changer la photo : remplace le src ci-dessous par le chemin de ton image. -->
           <img src="photo.jpg" alt="Portrait de Maxence Dubois">
         </div>
       </div>
@@ -239,8 +294,7 @@
 <!-- EXPÉRIENCES -->
 <section id="experiences">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">01</span><h2>Expériences</h2></div>
-    <p class="sec-sub">Aéronautique · Robotique · Nucléaire · Conseil</p>
+    <div class="sec-head"><h2>Expériences</h2></div>
     <div class="timeline">
       <div class="tl-item now reveal">
         <div class="tl-year">Depuis 2025 · en cours</div>
@@ -249,13 +303,13 @@
         <p>Développement de structures aéronautiques innovantes pour les dirigeables, et travaux de recherche sur la simulation des procédés d'assemblage de composites.</p>
       </div>
       <div class="tl-item reveal">
-        <div class="tl-year">2025 · en cours </div>
+        <div class="tl-year">2025 · en cours</div>
         <h4>McGill University</h4>
-        <p class="tl-role">Semestre d'études </p>
-        <p>Semestre d'études avec un focus technique sur l'ingénierie des matériaux (MECH544 – Processing of Composite Materials).</p>
+        <p class="tl-role">Semestre d'études</p>
+        <p>Semestre d'études avec un focus technique sur l'ingénierie des matériaux (MECH544 - Processing of Composite Materials).</p>
       </div>
       <div class="tl-item reveal">
-        <div class="tl-year">2025 · en cours </div>
+        <div class="tl-year">2025 · en cours</div>
         <h4>ÉTS (École de Technologie Supérieure)</h4>
         <p class="tl-role">Programme Double Diplôme - MSc</p>
         <p>Parcours académique d'excellence (GPA de 3.43 / 4.3), combinant rigueur théorique et forte immersion au cœur de l'industrie technologique.</p>
@@ -279,13 +333,13 @@
         <p>Amélioration des postes de travail du LR A330 par la méthode 5S et participation aux cartes S en cycle.</p>
       </div>
       <div class="tl-item reveal">
-        <div class="tl-year">2023 · en cours </div>
+        <div class="tl-year">2023 · en cours</div>
         <h4>Arts et Métiers</h4>
         <p class="tl-role">Programme Grande École</p>
-        <p>Grande École d’ingénieurs généraliste de renommée internationale, classée 12ème au palmarès Le Figaro. Parcours d'excellence validé par un GPA supérieur à 4.0.</p>
+        <p>Grande École d'ingénieurs généraliste de renommée internationale, classée 12ème au palmarès Le Figaro. Parcours d'excellence validé par un GPA supérieur à 4.0.</p>
       </div>
       <div class="tl-item reveal">
-        <div class="tl-year">2021 — 2023</div>
+        <div class="tl-year">2021 - 2023</div>
         <h4>CPGE — Lycée Léonce Vieljeux</h4>
         <p class="tl-role">Prépa scientifique TSI</p>
         <p>Cycle scientifique intensif de préparation aux concours des écoles d'ingénieurs au sein d'un établissement d'excellence (Classé Top 1 au palmarès Le Figaro l'année du concours).</p>
@@ -297,20 +351,19 @@
 <!-- PROJETS -->
 <section id="projets">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">02</span><h2>Projets</h2></div>
-    <p class="sec-sub">Sélection de réalisations techniques et personnelles</p>
+    <div class="sec-head"><h2>Projets</h2></div>
     <div class="grid">
       <article class="card reveal">
         <span class="ix">Astrophysique · simulation</span>
         <h3>"Black Hole Hunters"</h3>
-        <p>Ce projet est une bibliothèque Python orientée objet conçue pour automatiser le traitement, l'analyse et la classification des courbes de lumière stellaires.</p>
+        <p>Bibliothèque Python orientée objet pour automatiser le traitement, l'analyse et la classification des courbes de lumière stellaires.</p>
         <div class="tags"><span class="tag hot">Python</span><span class="tag hot">lightkurve</span><span class="tag">SciPy</span></div>
         <a href="projet-black-hole-hunters.html" class="card-link" aria-label="Voir le projet Black Hole Hunters"></a>
       </article>
       <article class="card reveal">
         <span class="ix">Recherche · simulation</span>
         <h3>Jumeau numérique d'un procédé composite</h3>
-        <p>Modèle prédictif du soudage par induction de composites thermoplastiques : couplage physique sous COMSOL et solveur Python par éléments finis, calibré sur mesures expérimentales.</p>
+        <p>Modèle prédictif du soudage par induction de composites thermoplastiques : couplage physique sous COMSOL et solveur Python par éléments finis.</p>
         <div class="tags"><span class="tag hot">Python</span><span class="tag hot">COMSOL</span><span class="tag">Éléments finis</span><span class="tag">SciPy</span></div>
         <a href="projet-jumeau-numerique.html" class="card-link" aria-label="Voir le projet Jumeau numérique"></a>
       </article>
@@ -349,26 +402,31 @@
 <!-- ENGAGEMENT -->
 <section id="engagement">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">03</span><h2>Engagement</h2></div>
-    <p class="sec-sub">Vie associative et représentation</p>
+    <div class="sec-head"><h2>Engagement</h2></div>
     <div class="engage">
       <div class="eng reveal">
         <div class="yr">Depuis 2025</div>
-        <h4>Représentant double diplôme</h4>
-        <p class="who">Arts et Métiers — ÉTS, Montréal</p>
-        <p>Encadrement et suivi des étudiants Arts et Métiers en double diplôme avec l'administration.</p>
+        <div>
+          <h4>Représentant double diplôme</h4>
+          <p class="who">Arts et Métiers · ÉTS, Montréal</p>
+          <p>Encadrement et suivi des étudiants Arts et Métiers en double diplôme avec l'administration.</p>
+        </div>
       </div>
       <div class="eng reveal">
-        <div class="yr">2024 — 2025</div>
-        <h4>Business Manager</h4>
-        <p class="who">AMJE — Junior-Entreprise des Arts et Métiers</p>
-        <p>Gestion de projets et de la relation client ; formation avec le cabinet EY. Prix d'Excellence de la CNJE.</p>
+        <div class="yr">2024 - 2025</div>
+        <div>
+          <h4>Business Manager</h4>
+          <p class="who">AMJE · Junior-Entreprise des Arts et Métiers</p>
+          <p>Gestion de projets et de la relation client ; formation avec le cabinet EY. Prix d'Excellence de la CNJE.</p>
+        </div>
       </div>
       <div class="eng reveal">
         <div class="yr">Arts et Métiers</div>
-        <h4>Club de boxe anglaise</h4>
-        <p class="who">Représentant du club, école des Arts et Métiers</p>
-        <p>Animation et représentation du club au sein de la vie étudiante.</p>
+        <div>
+          <h4>Club de boxe anglaise</h4>
+          <p class="who">Représentant du club</p>
+          <p>Animation et représentation du club au sein de la vie étudiante.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -377,18 +435,18 @@
 <!-- DISTINCTIONS -->
 <section id="distinctions">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">04</span><h2>Distinctions</h2></div>
+    <div class="sec-head"><h2>Distinctions</h2></div>
     <div class="honors">
       <div class="honor reveal"><span class="yr">2025</span><div>
-        <h4>Prix du concours de vulgarisation scientifique par affiche.</h4>
-        <p>Deuxième place dans la catégorie développement durable avec l'affiche : « Soudage par induction de structure en fibres de carbone pour l’aéronautique ».</p></div></div>
+        <h4>Prix du concours de vulgarisation scientifique par affiche</h4>
+        <p>Deuxième place en développement durable : « Soudage par induction de structure en fibres de carbone pour l'aéronautique ».</p></div></div>
       <div class="honor reveal"><span class="yr">2025</span><div>
         <h4>Prix du projet d'innovation Orano</h4>
         <p>Pour le livrable d'état de l'art en analyse non destructive (milieu irradié).</p></div></div>
       <div class="honor reveal"><span class="yr">2024</span><div>
         <h4>Prix d'Excellence de la CNJE</h4>
         <p>En tant que Business Manager à l'AMJE (partenariat EY).</p></div></div>
-      <div class="honor reveal"><span class="yr">—</span><div>
+      <div class="honor reveal"><span class="yr">En cours</span><div>
         <h4>Double diplôme international</h4>
         <p>Sélectionné pour le cursus Arts et Métiers × ÉTS Montréal.</p></div></div>
     </div>
@@ -398,16 +456,61 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">05</span><h2>Contact</h2></div>
+    <div class="sec-head"><h2>Contact</h2></div>
     <div class="contact">
       <div class="reveal">
         <p class="lead">Une opportunité de stage, un projet ou simplement envie d'échanger ? Écrivons-nous.</p>
         <ul class="links">
           <li><a href="mailto:produboismaxence@gmail.com"><span class="lab">Email</span>produboismaxence@gmail.com</a></li>
           <li><a href="tel:+33641376263"><span class="lab">Tél.</span>+33 6 41 37 62 63</a></li>
-          <li><a href="https://www.linkedin.com/in/maxence-dubois-259b48224/" data-edit="linkedin" target="_blank"><span class="lab">LinkedIn</span>https://www.linkedin.com/in/maxence-dubois-259b48224/</a></li>
-          <li><a href="https://github.com/maxencesoixante" data-edit="github" target="_blank"><span class="lab">GitHub</span>https://github.com/maxencesoixante</a></li>
+          <li><a href="https://www.linkedin.com/in/maxence-dubois-259b48224/" target="_blank" rel="noopener"><span class="lab">LinkedIn</span>maxence-dubois-259b48224</a></li>
+          <li><a href="https://github.com/maxencesoixante" target="_blank" rel="noopener"><span class="lab">GitHub</span>maxencesoixante</a></li>
         </ul>
+        <!-- mascot -->
+        <svg class="mascot" viewBox="0 0 210 285" xmlns="http://www.w3.org/2000/svg" aria-label="Illustration mascotte" role="img">
+          <!-- CHEVEUX (jaune doré) -->
+          <path d="M 124 52 Q 136 16 163 11 Q 186 7 190 29 Q 193 49 180 60 Q 166 68 148 64 Q 131 59 124 52Z"
+                fill="#F2C030" stroke="#1A1A1A" stroke-width="5" stroke-linejoin="round"/>
+          <!-- TÊTE (verte, profil gauche) -->
+          <path d="M 144 27 Q 176 20 197 53 Q 208 84 203 116 Q 193 146 172 159 Q 157 167 146 161 Q 130 153 120 140 Q 110 126 113 106 Q 115 80 124 59 Q 133 39 144 27Z"
+                fill="#52C068" stroke="#1A1A1A" stroke-width="5" stroke-linejoin="round"/>
+          <!-- OREILLE (droite, avec crochet jaune) -->
+          <ellipse cx="200" cy="110" rx="9" ry="15" fill="#52C068" stroke="#1A1A1A" stroke-width="4"/>
+          <ellipse cx="200" cy="113" rx="4.5" ry="8" fill="#F2C030"/>
+          <!-- IMMENSE NEZ (rose, crochet pointant à gauche) -->
+          <path d="M 115 83
+                   Q 97 73 71 84
+                   Q 45 97 25 119
+                   Q 11 137 17 157
+                   Q 25 176 51 173
+                   Q 73 169 89 155
+                   Q 107 141 111 125
+                   Q 115 107 115 85Z"
+                fill="#E8B8B0" stroke="#1A1A1A" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- OEIL (globuleux, sclère blanche) -->
+          <ellipse cx="160" cy="81" rx="20" ry="24" fill="white" stroke="#1A1A1A" stroke-width="4.5"/>
+          <ellipse cx="154" cy="84" rx="11" ry="13" fill="#1A1A1A"/>
+          <ellipse cx="150" cy="79" rx="3.5" ry="4" fill="white"/>
+          <!-- Sourcil -->
+          <path d="M 142 68 Q 160 60 178 67" stroke="#1A1A1A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <!-- GROSSES LÈVRES (rouges) -->
+          <path d="M 109 136 Q 123 128 139 132 Q 153 136 155 148 Q 152 163 138 168 Q 123 171 113 163 Q 105 154 109 136Z"
+                fill="#E02020" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M 109 136 Q 123 145 139 142" stroke="#1A1A1A" stroke-width="2.5" fill="none"/>
+          <!-- GOUTTE DE MORVE (bleue) -->
+          <path d="M 35 173 Q 25 184 29 196 Q 34 206 45 202 Q 54 197 51 185 Q 47 175 35 173Z"
+                fill="#5BA8D5" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round"/>
+          <!-- COU (vert) -->
+          <rect x="141" y="162" width="28" height="22" rx="8" fill="#52C068" stroke="#1A1A1A" stroke-width="4"/>
+          <!-- PETIT CORPS (bleu) -->
+          <rect x="121" y="182" width="70" height="56" rx="12" fill="#4A8FD5" stroke="#1A1A1A" stroke-width="4.5"/>
+          <!-- JAMBES (très courtes) -->
+          <rect x="127" y="234" width="22" height="26" rx="7" fill="#4A8FD5" stroke="#1A1A1A" stroke-width="3.5"/>
+          <rect x="159" y="234" width="22" height="26" rx="7" fill="#4A8FD5" stroke="#1A1A1A" stroke-width="3.5"/>
+          <!-- CHAUSSURES (orange) -->
+          <ellipse cx="138" cy="263" rx="20" ry="9" fill="#F0AA20" stroke="#1A1A1A" stroke-width="3.5"/>
+          <ellipse cx="170" cy="263" rx="20" ry="9" fill="#F0AA20" stroke="#1A1A1A" stroke-width="3.5"/>
+        </svg>
       </div>
       <form id="contact-form">
         <div class="field"><label for="name">Nom</label>
@@ -417,7 +520,7 @@
         <div class="field"><label for="msg">Message</label>
           <textarea id="msg" name="msg" required></textarea></div>
         <button class="send" type="submit">Envoyer le message</button>
-        <p class="form-note">Merci pour votre message!</p>
+        <p class="form-note" id="form-note">Message envoyé. Je vous réponds rapidement.</p>
       </form>
     </div>
   </div>
@@ -426,13 +529,34 @@
 <footer>
   <div class="wrap foot-inner">
     <p>© <span id="yr"></span> Maxence Dubois</p>
-    <p>Étudiant · Chercheur · Ingénieur</p>
+    <p>Montréal (QC), Canada</p>
   </div>
 </footer>
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
+  // Dark mode toggle
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
+  const stored = localStorage.getItem('theme');
+  if (stored) html.dataset.theme = stored;
+  function updateIcon(){
+    const dark = html.dataset.theme === 'dark' ||
+      (!html.dataset.theme && matchMedia('(prefers-color-scheme:dark)').matches);
+    themeBtn.textContent = dark ? '☀' : '☾';
+    themeBtn.setAttribute('aria-label', dark ? 'Passer en mode clair' : 'Passer en mode sombre');
+  }
+  updateIcon();
+  themeBtn.addEventListener('click', () => {
+    const isDark = html.dataset.theme === 'dark' ||
+      (!html.dataset.theme && matchMedia('(prefers-color-scheme:dark)').matches);
+    html.dataset.theme = isDark ? 'light' : 'dark';
+    localStorage.setItem('theme', html.dataset.theme);
+    updateIcon();
+  });
+
+  // Mobile nav
   const toggle = document.querySelector('.nav-toggle');
   const menu = document.getElementById('menu');
   toggle.addEventListener('click', () => {
@@ -443,18 +567,19 @@
     menu.classList.remove('open'); toggle.setAttribute('aria-expanded', false);
   }));
 
+  // Scroll reveals
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // formulaire -> mailto (fonctionne sans backend).
-  // Pour un envoi automatique : remplace par <form action="https://formspree.io/f/TON_ID" method="POST">.
+  // Contact form -> mailto
   document.getElementById('contact-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const n = encodeURIComponent(document.getElementById('name').value);
-    const m = encodeURIComponent(document.getElementById('msg').value + '\n\n— ' + document.getElementById('email').value);
-    window.location.href = `mailto:produboismaxence@gmail.com?subject=Contact portfolio — ${n}&body=${m}`;
+    const m = encodeURIComponent(document.getElementById('msg').value + '\n\n' + document.getElementById('email').value);
+    window.location.href = `mailto:produboismaxence@gmail.com?subject=Contact portfolio - ${n}&body=${m}`;
+    document.getElementById('form-note').classList.add('visible');
   });
 </script>
 </body>
