@@ -115,11 +115,13 @@
   /* CARDS (Projets) */
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;
-    display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s}
+    display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s;
+    position:relative;cursor:pointer}
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,30,44,.10);border-color:var(--line-strong)}
   .card .ix{font-family:var(--mono);font-size:12px;color:var(--slate)}
   .card h3{font-family:var(--display);font-size:21px;margin:8px 0 8px;letter-spacing:-.01em}
   .card p{margin:0 0 16px;color:#34485a;font-size:15.5px}
+  .card-link{position:absolute;inset:0;border-radius:var(--r)}
   .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
   .tag{font-family:var(--mono);font-size:11px;color:var(--steel);background:#EEF3F8;
     border:1px solid var(--line);border-radius:999px;padding:4px 11px;letter-spacing:.02em}
@@ -303,36 +305,42 @@
         <h3>"Black Hole Hunters"</h3>
         <p>Ce projet est une bibliothèque Python orientée objet conçue pour automatiser le traitement, l'analyse et la classification des courbes de lumière stellaires.</p>
         <div class="tags"><span class="tag hot">Python</span><span class="tag hot">lightkurve</span><span class="tag">SciPy</span></div>
+        <a href="projet-black-hole-hunters.html" class="card-link" aria-label="Voir le projet Black Hole Hunters"></a>
       </article>
       <article class="card reveal">
         <span class="ix">Recherche · simulation</span>
         <h3>Jumeau numérique d'un procédé composite</h3>
         <p>Modèle prédictif du soudage par induction de composites thermoplastiques : couplage physique sous COMSOL et solveur Python par éléments finis, calibré sur mesures expérimentales.</p>
         <div class="tags"><span class="tag hot">Python</span><span class="tag hot">COMSOL</span><span class="tag">Éléments finis</span><span class="tag">SciPy</span></div>
+        <a href="projet-jumeau-numerique.html" class="card-link" aria-label="Voir le projet Jumeau numérique"></a>
       </article>
       <article class="card reveal">
         <span class="ix">Finance · développement</span>
         <h3>Filtre de cibles d'investissement</h3>
         <p>Interface exploitant des API de données tierces et un moteur de filtrage personnalisé pour identifier et qualifier des entreprises selon des critères complexes.</p>
         <div class="tags"><span class="tag">Python</span><span class="tag">APIs</span><span class="tag">Données</span></div>
+        <a href="projet-filtre-investissement.html" class="card-link" aria-label="Voir le projet Filtre d'investissement"></a>
       </article>
       <article class="card reveal">
         <span class="ix">Robotique</span>
         <h3>Diagnostic robot & caméras EFA</h3>
         <p>Produit de diagnostic et de configuration des caméras embarquées sur les robots Shark Robotics, avec les pièces 3D associées.</p>
         <div class="tags"><span class="tag">Conception</span><span class="tag">SolidWorks</span><span class="tag">CAO 3D</span></div>
+        <a href="projet-diagnostic-robot.html" class="card-link" aria-label="Voir le projet Diagnostic robot"></a>
       </article>
       <article class="card reveal">
         <span class="ix">Projet d'études</span>
         <h3>Maquette de plaque piézoélectrique</h3>
         <p>Conception et réalisation d'une maquette démonstrative sur deux ans, du dimensionnement à l'expérimentation.</p>
         <div class="tags"><span class="tag">Mesure</span><span class="tag">Électronique</span><span class="tag">Prototypage</span></div>
+        <a href="projet-plaque-piezoelectrique.html" class="card-link" aria-label="Voir le projet Plaque piézoélectrique"></a>
       </article>
       <article class="card reveal">
         <span class="ix">Hackathon</span>
         <h3>Optimisation logistique CROUS</h3>
         <p>Analyse et optimisation du flux logistique d'un restaurant universitaire sur une semaine de hackathon.</p>
         <div class="tags"><span class="tag">Lean</span><span class="tag">Flux</span><span class="tag">Analyse</span></div>
+        <a href="projet-optimisation-crous.html" class="card-link" aria-label="Voir le projet Optimisation CROUS"></a>
       </article>
     </div>
   </div>
