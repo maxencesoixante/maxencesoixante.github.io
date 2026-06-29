@@ -4,11 +4,32 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>« Black Hole Hunters » — Maxence Dubois</title>
-<meta name="description" content="Bibliothèque Python pour le traitement et la classification de courbes de lumière stellaires.">
+<meta name="description" content="Bibliothèque Python pour la détection automatisée d'anomalies dans les courbes de lumière stellaires de Kepler et TESS.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="projet.css">
+<style>
+  .cite{font-family:var(--mono);font-size:11.5px;color:var(--steel);white-space:nowrap}
+  .sources-list{font-family:var(--mono);font-size:12px;color:var(--steel);line-height:2;padding-left:20px;margin:0}
+  .sources-list a{color:var(--heat)}
+  .sources-list em{font-style:italic}
+  .sources-head{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--steel);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+  .sources-head::before{content:"";width:26px;height:2px;background:var(--heat);display:inline-block}
+  /* Comparison table */
+  .cmp-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px;margin-top:18px}
+  .cmp-table th{background:var(--surface);border:1px solid var(--line);padding:11px 16px;text-align:left;
+    font-size:10.5px;letter-spacing:.10em;text-transform:uppercase;color:var(--steel);font-weight:600}
+  .cmp-table td{border:1px solid var(--line);padding:11px 16px;vertical-align:middle;color:var(--ink)}
+  .cmp-table tbody tr:nth-child(even) td{background:var(--surface)}
+  .cmp-table .val-pipeline{color:var(--heat);font-weight:600}
+  .cmp-table .val-nasa{color:var(--ink)}
+  .cmp-table .param{color:var(--steel);font-size:12px}
+  /* Intro grid: text + planet image */
+  .intro-grid{display:grid;grid-template-columns:55% 1fr;gap:28px;align-items:center;margin-top:4px}
+  @media(max-width:680px){.intro-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -23,39 +44,139 @@
   <section class="p-hero">
     <p class="eyebrow">Astrophysique · Programmation scientifique</p>
     <h1>« Black Hole Hunters »</h1>
-    <p class="subtitle">Bibliothèque Python orientée objet pour l'analyse de courbes de lumière stellaires</p>
-    <p class="summary">Une bibliothèque Python orientée objet conçue pour automatiser le traitement, l'analyse et la classification des courbes de lumière stellaires, afin d'aider à repérer des signatures candidates dans les données photométriques.</p>
-    <div class="banner ph"><!-- Image de couverture : remplace par <img src="images/couverture.jpg" alt="..."> -->IMAGE DE COUVERTURE — bandeau<br>(remplace ce cadre par &lt;img src="..."&gt;)</div>
-    <div class="meta"><div><span class="k">Rôle</span><span class="v">Conception & développement</span></div><div><span class="k">Contexte</span><span class="v">Projet académique / personnel</span></div><div><span class="k">Outils</span><span class="v">Python · lightkurve · SciPy</span></div><div><span class="k">Domaine</span><span class="v">Astrophysique · traitement du signal</span></div></div>
+    <p class="subtitle">Bibliothèque Python pour l'analyse automatisée des courbes de lumière de Kepler et TESS</p>
+    <p class="summary">Six classes Python, un sens de données. Les courbes brutes de la NASA entrent dans AstroFetcher et ressortent sous forme d'événements classifiés depuis AstroPlotter : transits d'exoplanètes, éruptions stellaires, candidats microlentilles gravitationnelles. Projet de session en équipe de trois, cours MGA 802, ÉTS, été 2026.</p>
+    <img class="banner" src="assets/img/black-hole-hunters/banner.png" alt="Courbe de lumière de Kepler-10 avec détection automatisée : 2 transits, 1 flare, 1 microlensing annotés" style="border-radius:14px;border:1px solid var(--line)">
+    <div class="meta">
+      <div><span class="k">Rôle</span><span class="v">Ingénierie des données</span></div>
+      <div><span class="k">Contexte</span><span class="v">MGA 802 — ÉTS, Été 2026</span></div>
+      <div><span class="k">Outils</span><span class="v">Python · lightkurve · Pandas · NumPy</span></div>
+      <div><span class="k">Domaine</span><span class="v">Astrophysique · Traitement du signal</span></div>
+    </div>
   </section>
 
   <section class="p-sec reveal">
-    <div class="lead"><span class="n">01</span><h2>Le contexte</h2></div>
-    <p>Les missions spatiales comme Kepler et TESS produisent d'immenses volumes de courbes de lumière — l'évolution de la luminosité d'une étoile au cours du temps. Les explorer manuellement est fastidieux et peu reproductible.</p><p>L'objectif du projet : offrir une boîte à outils réutilisable qui automatise tout le pipeline, du téléchargement des données jusqu'à leur classification. <span class="fill">[à compléter : précise l’objectif scientifique exact — détection de transits, d’étoiles variables, de candidats trous noirs binaires…]</span></p><div class="ph"><!-- Remplace ce bloc par : <img src="images/mon-image.jpg" alt="..."> -->IMAGE — schéma du problème / exemple de courbe brute<br>(remplace ce cadre par &lt;img src="..."&gt;)</div>
+    <div class="lead"><span class="n">01</span><h2>Le problème</h2></div>
+    <p>Kepler a mesuré la luminosité de 530 000 étoiles entre 2009 et 2018. TESS en mesure 400 000 autres depuis 2018 <span class="cite">[Borucki et al. 2010 ; Ricker et al. 2015]</span>. Ces deux missions produisent des dizaines de téraoctets de courbes de lumière : la brillance d'une étoile, point par point, sur des mois ou des années. Trois types d'événements se cachent dans ce flux de données.</p>
+    <p><strong>Les transits d'exoplanètes.</strong> Quand une planète passe devant son étoile, elle bloque entre 0,01 % (planète rocheuse) et 1 % (Jupiter chaud) de son flux lumineux pendant quelques heures. La signature est un creux symétrique et périodique.</p>
+    <p><strong>Les éruptions stellaires.</strong> Une explosion magnétique libère de l'énergie en quelques minutes puis décroît exponentiellement sur plusieurs heures. La montée abrupte suivie d'une longue traîne la distingue des autres événements <span class="cite">[Feinstein et al. 2025]</span>.</p>
+    <p><strong>La microlentille gravitationnelle.</strong> Un objet massif passe entre l'observateur et l'étoile cible. Sa gravité courbe et amplifie temporairement la lumière selon le profil de Paczyński <span class="cite">[Paczyński 1986]</span>. C'est la seule méthode photométrique qui détecte des trous noirs isolés sans qu'ils émettent de lumière.</p>
+    <p>Planet Hunters (Zooniverse) a prouvé que des bénévoles repèrent des événements que les algorithmes classiques ratent. À une courbe par minute par personne, inspecter manuellement les 930 000 étoiles des deux missions demanderait des milliers d'années-bénévoles. D'où l'automatisation.</p>
+    <div class="ph" style="aspect-ratio:16/9;margin-top:22px">
+      Capture d'écran du problème — ex. interface Planet Hunters / Zooniverse, ou visualisation du volume de données Kepler<br><br>
+      <code style="font-size:11px">&lt;img src="assets/img/black-hole-hunters/probleme.png" alt="..."&gt;</code>
+    </div>
   </section>
 
   <section class="p-sec reveal">
-    <div class="lead"><span class="n">02</span><h2>Mon approche</h2></div>
-    <p>J'ai retenu une architecture <strong>orientée objet</strong> : des classes dédiées au chargement, au nettoyage, à l'extraction de caractéristiques et à la classification, afin que chaque étape soit testable et réutilisable.</p><ul><li><strong>Acquisition</strong> via <em>lightkurve</em> (téléchargement et normalisation des courbes).</li><li><strong>Prétraitement</strong> avec SciPy / NumPy : suppression de tendance, normalisation, détection de périodicité.</li><li><strong>Classification</strong> : <span class="fill">[à compléter : décris la méthode — seuils, caractéristiques extraites, modèle de ML…]</span></li></ul>
+    <div class="lead"><span class="n">02</span><h2>Architecture</h2></div>
+    <p>Six classes, un sens de lecture. Chaque classe reçoit la sortie de la précédente et n'y touche plus.</p>
+    <img src="assets/img/black-hole-hunters/pipeline.png" alt="Pipeline de traitement : NASA API vers AstroFetcher, SignalCleaner, AnomalyDetector, AnomalyClassifier, AstroPlotter" style="border-radius:12px;margin-top:10px;width:100%">
+    <p style="margin-top:22px">J'ai conçu et codé <strong>AstroFetcher</strong> et <strong>SignalCleaner</strong>, les deux premiers maillons. Jules a pris <strong>AnomalyDetector</strong> et <strong>AnomalyClassifier</strong>. Alexandre a construit <strong>AstroPlotter</strong> et le script d'orchestration <code>main.py</code>.</p>
   </section>
 
   <section class="p-sec reveal">
-    <div class="lead"><span class="n">03</span><h2>Ce que j'ai réalisé</h2></div>
-    <p>Un pipeline modulaire de bout en bout : ingestion, nettoyage, extraction de caractéristiques et classification automatique, avec une interface simple pour enchaîner les traitements.</p><p><span class="fill">[à compléter : liste les classes principales et donne un court exemple d’utilisation (quelques lignes de code)]</span></p><div class="gallery"><div class="ph"><!-- Remplace ce bloc par : <img src="images/mon-image.jpg" alt="..."> -->IMAGE — structure des classes / extrait de code<br>(remplace ce cadre par &lt;img src="..."&gt;)</div><div class="ph"><!-- Remplace ce bloc par : <img src="images/mon-image.jpg" alt="..."> -->IMAGE — courbe avant / après traitement<br>(remplace ce cadre par &lt;img src="..."&gt;)</div></div>
+    <div class="lead"><span class="n">03</span><h2>Ce que j'ai codé</h2></div>
+    <p><strong>AstroFetcher</strong> interroge l'archive MAST de la NASA via lightkurve <span class="cite">[Lightkurve Collaboration 2018]</span>. Sa méthode <code>download_data</code> essaie d'abord la mission demandée (Kepler ou TESS), puis bascule vers l'autre si l'étoile n'y figure pas. Un second chargement via <code>load_local_csv</code> lit des données Kaggle pour travailler hors-ligne. L'appelant reçoit un DataFrame propre dans les deux cas sans avoir à gérer la source.</p>
+    <p><strong>SignalCleaner</strong> nettoie la courbe brute en trois étapes.</p>
+    <p>D'abord, la règle des 5σ. Pour une distribution gaussienne, la probabilité qu'un point réel dépasse cinq écarts-types est inférieure à 6×10⁻⁷. Tout point au-delà de ce seuil est un artefact instrumental (rayon cosmique, saturation du CCD, corruption de données) et on le supprime.</p>
+    <p>Ensuite, la normalisation par la médiane. On divise chaque mesure de flux par la médiane de l'ensemble de la courbe. Un flare qui monte le flux à 150 % pendant une heure ne déplace presque pas la médiane sur 90 jours d'observations. La moyenne, elle, serait biaisée vers le haut. Après normalisation, deux étoiles de luminosités très différentes produisent des courbes directement comparables.</p>
+    <p>Enfin, on n'utilise pas la méthode <code>flatten()</code> de lightkurve. Elle ajuste et soustrait une tendance sur 401 points, ce qui efface au passage les creux de transit qu'on cherche à détecter.</p>
+    <div class="gallery">
+      <img src="assets/img/black-hole-hunters/cleaning.png" alt="Courbe brute vs courbe nettoyée par SignalCleaner" style="border-radius:10px;width:100%">
+      <img src="assets/img/black-hole-hunters/event-profiles.png" alt="Les trois signatures astrophysiques : transit, flare, microlensing" style="border-radius:10px;width:100%">
+    </div>
   </section>
 
   <section class="p-sec reveal">
-    <div class="lead"><span class="n">04</span><h2>Résultats & enseignements</h2></div>
-    <p><span class="fill">[à compléter : résultats concrets — nombre de courbes traitées, exemples classés correctement, captures de sorties]</span></p><p>Sur le plan technique, le projet a consolidé ma maîtrise de la <strong>programmation orientée objet</strong> et de la manipulation de données astrophysiques réelles.</p>
+    <div class="lead"><span class="n">04</span><h2>Résultats — TrES-2b</h2></div>
+
+    <!-- INTRO : texte + illustration planète -->
+    <div class="intro-grid">
+      <p style="margin:0"><strong>TrES-2b</strong> est un Jupiter chaud découvert en 2006 par le Trans-atlantic Exoplanet Survey. Elle orbite l'étoile GSC 03549-02811 à 702 années-lumière dans la constellation du Dragon, bouclant un tour complet en 2,471 jours. Sa masse atteint 1,49 masses joviennes pour 1,36 rayons joviens. Sa surface dépasse 1 500 K. Son albédo géométrique est inférieur à 0,01, moins réfléchissant que du charbon. C'est la planète la plus sombre jamais découverte <span class="cite">[Kipping &amp; Spiegel 2011]</span>.</p>
+      <img src="assets/img/black-hole-hunters/nasa-reference.png"
+           alt="TrES-2b — modélisation NASA Eyes on Exoplanets : albédo < 0,01, température ~1 500 K"
+           style="border-radius:12px;width:100%">
+    </div>
+
+    <!-- RÉSULTATS OBTENUS : texte + courbe -->
+    <p style="margin-top:32px"><strong>Ce que notre pipeline détecte.</strong> Sur la fenêtre d'observation BKJD 121–130, AnomalyDetector isole 3 creux de flux à 99 % de confiance. La méthode rolling-window baseline departure calcule un résidu local à chaque pas de temps. Les trois creux dépassent le seuil à 1σ de façon symétrique et périodique, signature propre d'un transit planétaire. Période mesurée entre les minima : <strong>2,47 jours</strong>. Profondeur des creux : environ <strong>1,5 %</strong> de flux bloqué.</p>
+    <img src="assets/img/black-hole-hunters/detection_tres_2.png"
+         alt="Courbe de détection TrES-2b — 3 transits identifiés à 99 % de confiance, période 2,47 jours"
+         style="border-radius:10px;width:100%;margin-top:14px">
+
+    <!-- COMPARAISON NASA : tableau -->
+    <p style="margin-top:32px"><strong>Comparaison avec les données publiées.</strong> O'Donovan et al. (2006) fournissent les valeurs de référence pour TrES-2b <span class="cite">[O'Donovan et al. 2006]</span>.</p>
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>Paramètre</th>
+          <th>Notre pipeline</th>
+          <th>NASA / O'Donovan 2006</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="param">Transits identifiés</td>
+          <td class="val-pipeline">3</td>
+          <td class="val-nasa">3 passages confirmés</td>
+        </tr>
+        <tr>
+          <td class="param">Période orbitale</td>
+          <td class="val-pipeline">2,47 jours</td>
+          <td class="val-nasa">2,470614 jours</td>
+        </tr>
+        <tr>
+          <td class="param">Écart sur la période</td>
+          <td class="val-pipeline">&lt; 0,01 jour (&lt; 15 min)</td>
+          <td class="val-nasa">—</td>
+        </tr>
+        <tr>
+          <td class="param">Profondeur de transit</td>
+          <td class="val-pipeline">~1,5 %</td>
+          <td class="val-nasa">1,594 %</td>
+        </tr>
+        <tr>
+          <td class="param">Confiance de détection</td>
+          <td class="val-pipeline">99 %</td>
+          <td class="val-nasa">—</td>
+        </tr>
+        <tr>
+          <td class="param">Méthode</td>
+          <td class="val-pipeline">Rolling-window baseline departure</td>
+          <td class="val-nasa">Photométrie transit (TrES survey)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="p-sec reveal" style="padding-bottom:10px">
+    <p class="sources-head">Sources</p>
+    <ul class="sources-list">
+      <li>Borucki, W. J. et al. (2010). Kepler Planet-Detection Mission: Introduction and First Results. <em>Science</em>, 327(5968), 977–980.</li>
+      <li>Ricker, G. R. et al. (2015). Transiting Exoplanet Survey Satellite (TESS). <em>Journal of Astronomical Telescopes, Instruments, and Systems</em>, 1(1), 014003.</li>
+      <li>Paczyński, B. (1986). Gravitational microlensing by the galactic halo. <em>The Astrophysical Journal</em>, 304, 1–5.</li>
+      <li>Feinstein, A. D. et al. (2025). Stellar flare morphology with TESS across the main sequence. <em>Astronomy &amp; Astrophysics</em>. <a href="https://www.aanda.org/articles/aa/full_html/2025/02/aa52489-24/aa52489-24.html">doi:10.1051/0004-6361/202452489</a></li>
+      <li>Lightkurve Collaboration (2018). Lightkurve: Kepler and TESS time series analysis in Python. <em>Astrophysics Source Code Library</em>. <a href="https://docs.lightkurve.org">docs.lightkurve.org</a></li>
+      <li>O'Donovan, F. T. et al. (2006). TrES-2: The First Transiting Planet in the Kepler Field. <em>The Astrophysical Journal</em>, 651(1), L61–L64.</li>
+      <li>Kipping, D. M. &amp; Spiegel, D. S. (2011). Detection of visible light from the darkest world. <em>Monthly Notices of the Royal Astronomical Society</em>, 417(1), L88–L92.</li>
+    </ul>
   </section>
 
   <div class="p-tags">
     <span class="lbl">Compétences mobilisées</span>
-    <span class="tag">Python</span><span class="tag">lightkurve</span><span class="tag">SciPy</span><span class="tag">NumPy</span><span class="tag">POO</span><span class="tag">Traitement du signal</span>
+    <span class="tag">Python</span>
+    <span class="tag">lightkurve</span>
+    <span class="tag">Pandas</span>
+    <span class="tag">NumPy</span>
+    <span class="tag">Matplotlib</span>
+    <span class="tag">NASA API</span>
+    <span class="tag">POO</span>
+    <span class="tag">Traitement du signal</span>
+    <span class="tag">Kepler · TESS</span>
   </div>
 
   <nav class="pager">
-
     <a class="next" href="projet-jumeau-numerique.html"><span class="dir">Projet suivant →</span>Jumeau numérique d&#x27;un procédé composite</a>
   </nav>
 </div>
