@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maxence Dubois — Ingénieur · Chercheur · Entrepreneur</title>
 <meta name="description" content="Portfolio de Maxence Dubois — Élève ingénieur (ÉTS × Arts et Métiers). Expériences en aéronautique, robotique et nucléaire.">
+<meta property="og:title" content="Maxence Dubois — Ingénieur · Chercheur · Entrepreneur">
+<meta property="og:description" content="Portfolio de Maxence Dubois — Élève ingénieur (ÉTS × Arts et Métiers). Expériences en aéronautique, robotique et nucléaire.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="photo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -86,10 +90,10 @@
   .nav-right{display:flex;align-items:center;gap:16px}
   .nav-links{display:flex;gap:28px;align-items:center}
   .nav-links a{font-family:var(--mono);font-size:13px;letter-spacing:.04em;text-decoration:none;
-    color:var(--ink);opacity:.78;transition:opacity .2s,color .2s}
+    color:var(--ink);opacity:.88;transition:opacity .2s,color .2s}
   .nav-links a:hover{opacity:1;color:var(--steel)}
   .theme-toggle{background:none;border:1px solid var(--line-strong);border-radius:8px;
-    width:36px;height:34px;cursor:pointer;font-size:15px;color:var(--ink);
+    width:44px;height:44px;cursor:pointer;color:var(--ink);
     display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
   .theme-toggle:hover{border-color:var(--heat);color:var(--heat)}
   .nav-toggle{display:none;background:none;border:1px solid var(--line-strong);border-radius:8px;
@@ -244,13 +248,27 @@
     .eng{grid-template-columns:1fr;gap:6px;padding:20px 0}
   }
 
-  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(0.16,1,0.3,1),transform .6s cubic-bezier(0.16,1,0.3,1)}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .4s cubic-bezier(0.16,1,0.3,1) var(--stagger,0s),transform .4s cubic-bezier(0.16,1,0.3,1) var(--stagger,0s)}
   .reveal.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .skip-link{position:absolute;top:-100%;left:28px;padding:8px 16px;background:var(--heat);color:#fff;
+    font-family:var(--mono);font-size:13px;border-radius:0 0 8px 8px;z-index:200;text-decoration:none;
+    transition:top .15s}
+  .skip-link:focus{top:0;outline:none}
+  .nav-links a.active{opacity:1;color:var(--heat)}
+  .grid .card.reveal:nth-child(2){--stagger:.06s}
+  .grid .card.reveal:nth-child(3){--stagger:.12s}
+  .grid .card.reveal:nth-child(4){--stagger:.18s}
+  .grid .card.reveal:nth-child(5){--stagger:.24s}
+  .grid .card.reveal:nth-child(6){--stagger:.30s}
+  .honors .honor.reveal:nth-child(2){--stagger:.06s}
+  .honors .honor.reveal:nth-child(3){--stagger:.12s}
+  .honors .honor.reveal:nth-child(4){--stagger:.18s}
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#main">Aller au contenu principal</a>
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="#top">Maxence Dubois<span class="dot">.</span></a>
@@ -269,6 +287,7 @@
 </header>
 
 <a id="top"></a>
+<main id="main">
 <section class="hero" style="border-top:none">
   <div class="wrap">
     <div class="hero-grid">
@@ -283,7 +302,7 @@
       </div>
       <div class="photo-frame reveal">
         <div class="photo-card">
-          <img src="photo.jpg" alt="Portrait de Maxence Dubois">
+          <img src="photo.jpg" alt="Portrait de Maxence Dubois" width="560" height="672">
         </div>
       </div>
     </div>
@@ -520,12 +539,13 @@
         <div class="field"><label for="msg">Message</label>
           <textarea id="msg" name="msg" required></textarea></div>
         <button class="send" type="submit">Envoyer le message</button>
-        <p class="form-note" id="form-note">Message envoyé. Je vous réponds rapidement.</p>
+        <p class="form-note" id="form-note" role="alert" aria-live="polite">Message envoyé. Je vous réponds rapidement.</p>
       </form>
     </div>
   </div>
 </section>
 
+</main>
 <footer>
   <div class="wrap foot-inner">
     <p>© <span id="yr"></span> Maxence Dubois</p>
@@ -541,10 +561,12 @@
   const themeBtn = document.getElementById('theme-toggle');
   const stored = localStorage.getItem('theme');
   if (stored) html.dataset.theme = stored;
+  const SVG_SUN = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  const SVG_MOON = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
   function updateIcon(){
     const dark = html.dataset.theme === 'dark' ||
       (!html.dataset.theme && matchMedia('(prefers-color-scheme:dark)').matches);
-    themeBtn.textContent = dark ? '☀' : '☾';
+    themeBtn.innerHTML = dark ? SVG_SUN : SVG_MOON;
     themeBtn.setAttribute('aria-label', dark ? 'Passer en mode clair' : 'Passer en mode sombre');
   }
   updateIcon();
@@ -569,9 +591,29 @@
 
   // Scroll reveals
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        e.target.addEventListener('transitionend', () => e.target.classList.remove('reveal'), {once: true});
+        io.unobserve(e.target);
+      }
+    });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Active nav link tracking
+  const navSections = document.querySelectorAll('section[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navAnchors.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  navSections.forEach(s => navObserver.observe(s));
 
   // Contact form -> mailto
   document.getElementById('contact-form').addEventListener('submit', (e) => {

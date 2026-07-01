@@ -46,7 +46,231 @@
     <h1>« Black Hole Hunters »</h1>
     <p class="subtitle">Bibliothèque Python pour l'analyse automatisée des courbes de lumière de Kepler et TESS</p>
     <p class="summary">Six classes Python, un sens de données. Les courbes brutes de la NASA entrent dans AstroFetcher et ressortent sous forme d'événements classifiés depuis AstroPlotter : transits d'exoplanètes, éruptions stellaires, candidats microlentilles gravitationnelles. Projet de session en équipe de trois, cours MGA 802, ÉTS, été 2026.</p>
-    <img class="banner" src="assets/img/squelette_TESS.png" alt="Schéma technique du télescope spatial TESS (Transiting Exoplanet Survey Satellite) avec ses composants annotés" style="border-radius:14px;border:1px solid var(--line);object-fit:cover;width:100%;max-height:480px">
+    <div style="margin-top:34px;border-radius:14px;overflow:hidden;border:1px solid #00C8FF33">
+    <svg viewBox="0 0 920 390" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Affichage holographique de la mission TESS : satellite observant l'exoplanète TrES-2b en orbite autour de l'étoile GSC 03549-02811" style="width:100%;display:block">
+      <defs>
+        <!-- Grid pattern -->
+        <pattern id="sw-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M40,0L0,0L0,40" fill="none" stroke="#00C8FF" stroke-width=".3" opacity=".12"/>
+        </pattern>
+        <!-- Scanlines -->
+        <pattern id="sw-scan" width="920" height="4" patternUnits="userSpaceOnUse">
+          <rect width="920" height="1" fill="#00C8FF" opacity=".03"/>
+        </pattern>
+        <!-- Vignette -->
+        <radialGradient id="sw-vig" cx="50%" cy="50%" r="70%">
+          <stop offset="55%" stop-color="#00060E" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#00060E" stop-opacity=".65"/>
+        </radialGradient>
+        <!-- Glow filters -->
+        <filter id="sw-g1"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sw-g2"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sw-blur"><feGaussianBlur stdDeviation="5"/></filter>
+        <!-- Orbit path for animation -->
+        <path id="sw-orb" d="M705,195 A130,88 0 0,1 575,283 A130,88 0 0,1 445,195 A130,88 0 0,1 575,107 A130,88 0 0,1 705,195"/>
+        <style>
+          @keyframes swFlick{0%,82%,100%{opacity:1}83%{opacity:.5}84%{opacity:1}85%{opacity:.72}86%{opacity:1}90%{opacity:.6}91%{opacity:1}}
+          @keyframes swBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+          @keyframes swPulse{0%,100%{opacity:.2}50%{opacity:1}}
+          @keyframes swSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+          .sw-holo{animation:swFlick 9s ease-in-out infinite}
+          .sw-blink{animation:swBlink 1.1s step-end infinite}
+          .sw-pulse{animation:swPulse 2.2s ease-in-out infinite}
+          @media(prefers-reduced-motion:reduce){
+            .sw-holo,.sw-blink,.sw-pulse{animation:none!important;opacity:1}
+          }
+        </style>
+      </defs>
+
+      <!-- Base bg -->
+      <rect width="920" height="390" fill="#00060E"/>
+      <rect width="920" height="390" fill="url(#sw-grid)"/>
+      <rect width="920" height="390" fill="url(#sw-scan)"/>
+      <!-- Vignette -->
+      <rect width="920" height="390" fill="url(#sw-vig)"/>
+      <!-- Outer frame -->
+      <rect x="2" y="2" width="916" height="386" fill="none" stroke="#00C8FF" stroke-width="1" opacity=".3"/>
+      <!-- Corner brackets -->
+      <path d="M8,32 L8,8 L32,8" fill="none" stroke="#00C8FF" stroke-width="1.6" opacity=".75"/>
+      <path d="M888,8 L912,8 L912,32" fill="none" stroke="#00C8FF" stroke-width="1.6" opacity=".75"/>
+      <path d="M8,358 L8,382 L32,382" fill="none" stroke="#00C8FF" stroke-width="1.6" opacity=".75"/>
+      <path d="M888,382 L912,382 L912,358" fill="none" stroke="#00C8FF" stroke-width="1.6" opacity=".75"/>
+      <!-- Scanning sweep line -->
+      <rect x="3" y="-45" width="914" height="45" fill="#00C8FF" opacity=".04">
+        <animateTransform attributeName="transform" type="translate" from="0,0" to="0,440" dur="5.5s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- Header -->
+      <circle class="sw-blink" cx="20" cy="21" r="3.5" fill="#00FF88" filter="url(#sw-g1)"/>
+      <text x="30" y="25" font-family="'IBM Plex Mono',monospace" font-size="7.5" fill="#00FF88" letter-spacing=".08em" opacity=".9">LIVE</text>
+      <text x="460" y="25" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#00C8FF" letter-spacing=".22em" opacity=".6">TESS · NASA · EXOPLANET SURVEY SATELLITE</text>
+      <text x="904" y="25" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="7.5" fill="#00C8FF" letter-spacing=".06em" opacity=".45">MGA 802</text>
+
+      <!-- ═══ HOLOGRAPHIC SCENE ═══ -->
+      <g class="sw-holo">
+
+        <!-- ── SATELLITE (left, cx≈141 cy=195) ── -->
+        <!-- Targeting bracket around satellite -->
+        <path d="M52,130 L38,130 L38,264 L52,264" fill="none" stroke="#00C8FF" stroke-width=".8" opacity=".4"/>
+        <path d="M232,130 L246,130 L246,264 L232,264" fill="none" stroke="#00C8FF" stroke-width=".8" opacity=".4"/>
+
+        <!-- Field-of-view wedge pointing toward star -->
+        <path d="M182,186 L444,108 L444,268 Z" fill="#00C8FF" opacity=".025"/>
+        <line x1="182" y1="186" x2="444" y2="108" stroke="#00C8FF" stroke-width=".5" stroke-dasharray="4 6" opacity=".15"/>
+        <line x1="182" y1="186" x2="444" y2="268" stroke="#00C8FF" stroke-width=".5" stroke-dasharray="4 6" opacity=".15"/>
+        <!-- Center targeting beam -->
+        <line x1="182" y1="186" x2="444" y2="186" stroke="#00C8FF" stroke-width=".9" stroke-dasharray="7 5" opacity=".28"/>
+        <polygon points="446,186 438,182 438,190" fill="#00C8FF" opacity=".35"/>
+
+        <!-- Left solar panel -->
+        <rect x="40" y="151" width="74" height="88" rx="2" fill="#00060E" stroke="#00C8FF" stroke-width="1.1" opacity=".88"/>
+        <line x1="64" y1="151" x2="64" y2="239" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="89" y1="151" x2="89" y2="239" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="40" y1="175" x2="114" y2="175" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="40" y1="195" x2="114" y2="195" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="40" y1="217" x2="114" y2="217" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <rect x="42" y="151" width="70" height="88" rx="1" fill="#00C8FF" opacity=".025"/>
+
+        <!-- Right solar panel -->
+        <rect x="168" y="151" width="74" height="88" rx="2" fill="#00060E" stroke="#00C8FF" stroke-width="1.1" opacity=".88"/>
+        <line x1="192" y1="151" x2="192" y2="239" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="217" y1="151" x2="217" y2="239" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="168" y1="175" x2="242" y2="175" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="168" y1="195" x2="242" y2="195" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <line x1="168" y1="217" x2="242" y2="217" stroke="#00C8FF" stroke-width=".4" opacity=".32"/>
+        <rect x="170" y="151" width="70" height="88" rx="1" fill="#00C8FF" opacity=".025"/>
+
+        <!-- Satellite body -->
+        <rect x="114" y="160" width="54" height="72" rx="3" fill="#00060E" stroke="#00C8FF" stroke-width="1.4" filter="url(#sw-g1)" opacity=".92"/>
+        <rect x="114" y="182" width="54" height="10" fill="#00C8FF" opacity=".05"/>
+        <rect x="114" y="202" width="54" height="1.5" fill="#00C8FF" opacity=".12"/>
+
+        <!-- Camera aperture on right face, aimed at star -->
+        <rect x="160" y="177" width="22" height="18" rx="2" fill="#00060E" stroke="#00C8FF" stroke-width="1.2" opacity=".92"/>
+        <circle cx="172" cy="186" r="5.5" fill="none" stroke="#00C8FF" stroke-width=".9" opacity=".7"/>
+        <circle cx="172" cy="186" r="2.5" fill="#00C8FF" opacity=".45" filter="url(#sw-g1)"/>
+        <circle cx="169" cy="183" r=".9" fill="#7FEFFF" opacity=".6"/>
+
+        <!-- Antenna mast -->
+        <line x1="137" y1="160" x2="124" y2="136" stroke="#00C8FF" stroke-width="1" opacity=".6"/>
+        <circle cx="124" cy="133" r="5" fill="none" stroke="#00C8FF" stroke-width="1" opacity=".6"/>
+        <circle cx="124" cy="133" r="1.5" fill="#00C8FF" opacity=".4"/>
+
+        <!-- Status LED -->
+        <circle class="sw-pulse" cx="128" cy="173" r="3.5" fill="#00FF88" filter="url(#sw-g1)"/>
+
+        <!-- Sat labels -->
+        <text x="141" y="258" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#00C8FF" letter-spacing=".2em" filter="url(#sw-g1)" opacity=".92">TESS</text>
+        <text x="141" y="270" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#00C8FF" letter-spacing=".1em" opacity=".45">NASA · MIT · SAO</text>
+
+        <!-- Telemetry readouts near satellite -->
+        <text x="40" y="292" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#00C8FF" opacity=".45">ALT   13.7 AU</text>
+        <text x="40" y="303" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#00C8FF" opacity=".45">INC   28.5°</text>
+        <text x="40" y="314" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#00FF88" opacity=".72">SCAN  ACTIVE</text>
+        <text x="40" y="325" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#00C8FF" opacity=".45">TARGET LOCKED</text>
+
+        <!-- ── VERTICAL DIVIDER ── -->
+        <line x1="278" y1="45" x2="278" y2="342" stroke="#00C8FF" stroke-width=".4" stroke-dasharray="2 8" opacity=".18"/>
+
+        <!-- ── STAR SYSTEM (cx=575 cy=195) ── -->
+        <!-- Outer targeting brackets for system -->
+        <path d="M388,75 L366,75 L366,94" fill="none" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <path d="M762,75 L784,75 L784,94" fill="none" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <path d="M366,296 L366,318 L388,318" fill="none" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <path d="M762,318 L784,318 L784,296" fill="none" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+
+        <!-- Orbit ellipse (visual) — same path as animation reference -->
+        <use xlink:href="#sw-orb" href="#sw-orb" fill="none" stroke="#00C8FF" stroke-width=".9" stroke-dasharray="5 5" opacity=".28"/>
+        <!-- Orbit tick marks at cardinal points -->
+        <line x1="575" y1="100" x2="575" y2="110" stroke="#00C8FF" stroke-width=".8" opacity=".38"/>
+        <line x1="575" y1="280" x2="575" y2="290" stroke="#00C8FF" stroke-width=".8" opacity=".38"/>
+        <line x1="440" y1="195" x2="450" y2="195" stroke="#00C8FF" stroke-width=".8" opacity=".38"/>
+        <line x1="700" y1="195" x2="710" y2="195" stroke="#00C8FF" stroke-width=".8" opacity=".38"/>
+
+        <!-- Star ambient glow -->
+        <circle cx="575" cy="195" r="56" fill="#00C8FF" opacity=".05" filter="url(#sw-blur)"/>
+        <!-- Star outer wireframe ring -->
+        <circle cx="575" cy="195" r="46" fill="#00060E" stroke="#00C8FF" stroke-width="1.3" filter="url(#sw-g1)" opacity=".78"/>
+        <!-- Inner rings -->
+        <circle cx="575" cy="195" r="34" fill="none" stroke="#00C8FF" stroke-width=".5" stroke-dasharray="3 4" opacity=".32"/>
+        <circle cx="575" cy="195" r="20" fill="none" stroke="#00C8FF" stroke-width=".4" opacity=".2"/>
+        <!-- Star nucleus -->
+        <circle cx="575" cy="195" r="7" fill="#00C8FF" opacity=".18"/>
+        <circle cx="575" cy="195" r="3.5" fill="#7FEFFF" filter="url(#sw-g2)" opacity=".7"/>
+        <!-- Crosshairs on star -->
+        <line x1="575" y1="150" x2="575" y2="168" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <line x1="575" y1="222" x2="575" y2="240" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <line x1="528" y1="195" x2="548" y2="195" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <line x1="602" y1="195" x2="622" y2="195" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <!-- Outer targeting ring -->
+        <circle cx="575" cy="195" r="57" fill="none" stroke="#00C8FF" stroke-width=".5" stroke-dasharray="2 10" opacity=".22"/>
+
+        <!-- Star labels -->
+        <text x="575" y="260" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#00C8FF" letter-spacing=".1em" opacity=".72">GSC 03549-02811</text>
+        <text x="575" y="272" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#00C8FF" letter-spacing=".06em" opacity=".4">G0V · Kp 11.4 · 702 LY</text>
+
+        <!-- Orbital data label -->
+        <text x="450" y="315" font-family="'IBM Plex Mono',monospace" font-size="7.5" fill="#00C8FF" letter-spacing=".06em" opacity=".48">T = 2.47 D</text>
+
+        <!-- Planet label (fixed, upper right of orbit) -->
+        <text x="724" y="118" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#00C8FF" letter-spacing=".08em" opacity=".75">TrES-2b</text>
+        <text x="724" y="130" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#00C8FF" opacity=".42">HOT JUPITER</text>
+        <line x1="720" y1="132" x2="700" y2="148" stroke="#00C8FF" stroke-width=".6" stroke-dasharray="3 3" opacity=".35"/>
+
+        <!-- ── TELEMETRY PANEL (right) ── -->
+        <rect x="798" y="88" width="110" height="210" rx="3" fill="#00060E" stroke="#00C8FF" stroke-width=".8" opacity=".42"/>
+        <rect x="798" y="88" width="110" height="17" fill="#00C8FF" opacity=".07"/>
+        <text x="853" y="100" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="7.5" fill="#00C8FF" letter-spacing=".15em" opacity=".8">TELEMETRY</text>
+        <line x1="806" y1="107" x2="900" y2="107" stroke="#00C8FF" stroke-width=".4" opacity=".25"/>
+        <text x="806" y="120" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">SECTOR</text>
+        <text x="900" y="120" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".82">S26</text>
+        <text x="806" y="133" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">CAMERA</text>
+        <text x="900" y="133" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".82">CAM-1</text>
+        <text x="806" y="146" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">CADENCE</text>
+        <text x="900" y="146" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".82">2 MIN</text>
+        <text x="806" y="159" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">PIXELS</text>
+        <text x="900" y="159" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".82">2048×2048</text>
+        <line x1="806" y1="166" x2="900" y2="166" stroke="#00C8FF" stroke-width=".4" opacity=".2"/>
+        <text x="806" y="179" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">DEPTH</text>
+        <text x="900" y="179" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00FF88" opacity=".88">~1.5 %</text>
+        <text x="806" y="192" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">PERIOD</text>
+        <text x="900" y="192" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00FF88" opacity=".88">2.47 D</text>
+        <text x="806" y="205" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">CONF.</text>
+        <text x="900" y="205" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00FF88" opacity=".88">99 %</text>
+        <line x1="806" y1="213" x2="900" y2="213" stroke="#00C8FF" stroke-width=".4" opacity=".2"/>
+        <text x="806" y="226" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">TRANSIT</text>
+        <circle class="sw-blink" cx="895" cy="223" r="3.5" fill="#00FF88" filter="url(#sw-g1)"/>
+        <text x="806" y="239" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">ETA</text>
+        <text x="900" y="239" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".65">+1.2 H</text>
+        <text x="806" y="252" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">FRAMES</text>
+        <text x="900" y="252" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".65">20,448</text>
+        <text x="806" y="265" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">MASS</text>
+        <text x="900" y="265" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".65">1.49 Mj</text>
+        <text x="806" y="278" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".4">ALBEDO</text>
+        <text x="900" y="278" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="6.5" fill="#00C8FF" opacity=".65">&lt; 0.01</text>
+
+        <!-- Bottom status bar -->
+        <rect x="8" y="360" width="904" height="22" fill="#00C8FF" opacity=".035"/>
+        <text x="20" y="375" font-family="'IBM Plex Mono',monospace" font-size="7.5" fill="#00C8FF" opacity=".48" letter-spacing=".05em">BKJD 2459 · ORBITAL TRACKING ACTIVE · TrES-2b · TARGET LOCK CONFIRMED</text>
+        <text x="900" y="375" text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="7.5" fill="#00C8FF" opacity=".48">BLACK HOLE HUNTERS</text>
+
+      </g><!-- end .sw-holo -->
+
+      <!-- Planet orbiting the star via animateMotion (outside flicker group for independent motion) -->
+      <g filter="url(#sw-g1)" opacity=".92">
+        <!-- Planet body -->
+        <circle r="12" fill="#00060E" stroke="#00C8FF" stroke-width="1.3"/>
+        <!-- Inner detail rings -->
+        <circle r="6" fill="none" stroke="#00C8FF" stroke-width=".5" opacity=".35"/>
+        <circle r="2.5" fill="#00C8FF" opacity=".3"/>
+        <!-- Nucleus glint -->
+        <circle cx="-4" cy="-4" r="1" fill="#7FEFFF" opacity=".5"/>
+        <animateMotion dur="10s" repeatCount="indefinite" rotate="0">
+          <mpath xlink:href="#sw-orb" href="#sw-orb"/>
+        </animateMotion>
+      </g>
+    </svg>
+    </div>
     <div class="meta">
       <div><span class="k">Rôle</span><span class="v">Ingénierie des données</span></div>
       <div><span class="k">Contexte</span><span class="v">MGA 802 — ÉTS, Été 2026</span></div>
@@ -190,7 +414,7 @@
 </footer>
 
 <script>
-bah  const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
