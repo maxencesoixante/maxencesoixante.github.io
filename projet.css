@@ -78,7 +78,7 @@ header.bar{position:sticky;top:0;z-index:50;background:rgba(243,246,250,.85);
   line-height:1.02;letter-spacing:-.025em;margin:0}
 .p-hero .subtitle{font-family:var(--display);font-weight:600;color:var(--steel);
   font-size:clamp(16px,2.2vw,20px);margin:16px 0 0}
-.p-hero .summary{font-size:18px;color:var(--slate);margin:22px 0 0;max-width:64ch}
+.p-hero .summary{font-size:18px;color:var(--slate);margin:22px 0 0}
 
 /* BANNER + IMAGE PLACEHOLDERS */
 .ph{border:1.5px dashed var(--line-strong);border-radius:14px;

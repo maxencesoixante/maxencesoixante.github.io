@@ -29,6 +29,24 @@
   /* Intro grid: text + planet image */
   .intro-grid{display:grid;grid-template-columns:55% 1fr;gap:28px;align-items:center;margin-top:4px}
   @media(max-width:680px){.intro-grid{grid-template-columns:1fr}}
+  /* Pipeline diagram */
+  .pipeline{display:flex;align-items:center;gap:2px;margin-top:14px;overflow-x:auto;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 20px}
+  .pipeline-step{flex:1;min-width:150px;text-align:center;display:flex;flex-direction:column;gap:6px}
+  .pipeline-step .ps-name{font-family:var(--mono);font-weight:600;font-size:13.5px;color:var(--ink)}
+  .pipeline-step .ps-desc{font-family:var(--mono);font-size:10px;color:var(--steel);line-height:1.5}
+  .pipeline-arrow{color:var(--heat);font-size:16px;flex-shrink:0;padding:0 4px}
+  @media(max-width:680px){
+    .pipeline{flex-direction:column;align-items:stretch}
+    .pipeline-arrow{transform:rotate(90deg);align-self:center;padding:4px 0}
+  }
+  /* Decision cards */
+  .decision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+  .decision-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px 16px;display:flex;flex-direction:column;gap:8px}
+  .decision-card .dc-title{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--heat)}
+  .decision-card .dc-desc{font-size:13.5px;color:var(--ink);line-height:1.5;margin:0}
+  @media(max-width:680px){.decision-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -45,7 +63,7 @@
     <p class="eyebrow">Astrophysique · Programmation scientifique</p>
     <h1>« Black Hole Hunters »</h1>
     <p class="subtitle">Bibliothèque Python pour l'analyse automatisée des courbes de lumière de Kepler et TESS</p>
-    <p class="summary">Six classes Python, un sens de données. Les courbes brutes de la NASA entrent dans AstroFetcher et ressortent sous forme d'événements classifiés depuis AstroPlotter : transits d'exoplanètes, éruptions stellaires, candidats microlentilles gravitationnelles. Projet de session en équipe de trois, cours MGA 802, ÉTS, été 2026.</p>
+    <p class="summary">Un trou noir n'émet aucune lumière. La seule façon de le repérer est d'observer comment sa gravité déforme la lumière d'une étoile placée derrière lui. Ce pipeline Python automatise cette chasse sur les courbes de lumière de Kepler et TESS : AstroFetcher récupère la donnée brute, AstroPlotter ressort des événements classés : transit d'exoplanète, éruption stellaire, candidat microlentille gravitationnelle. Projet de session à trois, cours MGA 802, ÉTS, été 2026.</p>
     <div style="margin-top:34px;border-radius:14px;overflow:hidden;border:1px solid #00C8FF33">
     <svg viewBox="0 0 920 390" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Affichage holographique de la mission TESS : satellite observant l'exoplanète TrES-2b en orbite autour de l'étoile GSC 03549-02811" style="width:100%;display:block">
       <defs>
@@ -280,7 +298,7 @@
   </section>
 
   <section class="p-sec reveal">
-    <div class="lead"><span class="n">01</span><h2>Le problème</h2></div>
+    <div class="lead"><span class="n">01</span><h2>Pourquoi automatiser</h2></div>
     <p>Kepler a mesuré la luminosité de 530 000 étoiles entre 2009 et 2018. TESS en mesure 400 000 autres depuis 2018 <span class="cite">[Borucki et al. 2010 ; Ricker et al. 2015]</span>. Ces deux missions produisent des dizaines de téraoctets de courbes de lumière : la brillance d'une étoile, point par point, sur des mois ou des années. Trois types d'événements se cachent dans ce flux de données.</p>
     <p><strong>Les transits d'exoplanètes.</strong> Quand une planète passe devant son étoile, elle bloque entre 0,01 % (planète rocheuse) et 1 % (Jupiter chaud) de son flux lumineux pendant quelques heures. La signature est un creux symétrique et périodique.</p>
     <p><strong>Les éruptions stellaires.</strong> Une explosion magnétique libère de l'énergie en quelques minutes puis décroît exponentiellement sur plusieurs heures. La montée abrupte suivie d'une longue traîne la distingue des autres événements <span class="cite">[Feinstein et al. 2025]</span>.</p>
@@ -291,22 +309,38 @@
 
   <section class="p-sec reveal">
     <div class="lead"><span class="n">02</span><h2>Architecture</h2></div>
-    <p>Six classes, un sens de lecture. Chaque classe reçoit la sortie de la précédente et n'y touche plus.</p>
-    <img src="assets/img/black-hole-hunters/pipeline.png" alt="Pipeline de traitement : NASA API vers AstroFetcher, SignalCleaner, AnomalyDetector, AnomalyClassifier, AstroPlotter" style="border-radius:12px;margin-top:10px;width:100%">
-    <p style="margin-top:22px">J'ai conçu et codé <strong>AstroFetcher</strong> et <strong>SignalCleaner</strong>, les deux premiers maillons. Jules a pris <strong>AnomalyDetector</strong> et <strong>AnomalyClassifier</strong>. Alexandre a construit <strong>AstroPlotter</strong> et le script d'orchestration <code>main.py</code>.</p>
+    <p>Quatre classes, une responsabilité chacune. <strong>AstroFetcher</strong> récupère la courbe brute depuis l'API NASA ou un CSV local. <strong>SignalCleaner</strong> la nettoie et la normalise. <strong>AnomalyDetector</strong> repère les événements et les classe selon leur forme. <strong>AstroPlotter</strong> produit la figure annotée. Chaque classe connaît uniquement le contrat de sa voisine : un DataFrame avec des colonnes <code>time</code> et <code>flux</code> en entrée, le même format en sortie. Aucune classe ne regarde l'implémentation interne d'une autre.</p>
+    <div class="pipeline">
+      <div class="pipeline-step"><span class="ps-name">AstroFetcher</span><span class="ps-desc">lightkurve · Kepler ⇄ TESS · CSV local</span></div>
+      <span class="pipeline-arrow">→</span>
+      <div class="pipeline-step"><span class="ps-name">SignalCleaner</span><span class="ps-desc">5σ asymétrique · normalisation médiane</span></div>
+      <span class="pipeline-arrow">→</span>
+      <div class="pipeline-step"><span class="ps-name">AnomalyDetector</span><span class="ps-desc">baseline glissante · classification par forme</span></div>
+      <span class="pipeline-arrow">→</span>
+      <div class="pipeline-step"><span class="ps-name">AstroPlotter</span><span class="ps-desc">matplotlib · figure annotée</span></div>
+    </div>
+    <p style="margin-top:22px">Ce découplage paie une deuxième fois. Les mêmes quatre classes tournent derrière deux interfaces sans qu'une ligne change. <code>main.py</code> les expose en ligne de commande, avec une boucle qui redemande un identifiant tant que l'étoile reste introuvable plutôt que d'arrêter le programme. <code>app.py</code> expose le même pipeline dans une interface web Streamlit. Le module <code>astro_module</code> ne sait pas laquelle des deux l'appelle.</p>
   </section>
 
   <section class="p-sec reveal">
-    <div class="lead"><span class="n">03</span><h2>Ce que j'ai codé</h2></div>
-    <p><strong>AstroFetcher</strong> interroge l'archive MAST de la NASA via lightkurve <span class="cite">[Lightkurve Collaboration 2018]</span>. Sa méthode <code>download_data</code> essaie d'abord la mission demandée (Kepler ou TESS), puis bascule vers l'autre si l'étoile n'y figure pas. Un second chargement via <code>load_local_csv</code> lit des données Kaggle pour travailler hors-ligne. L'appelant reçoit un DataFrame propre dans les deux cas sans avoir à gérer la source.</p>
-    <p><strong>SignalCleaner</strong> nettoie la courbe brute en trois étapes.</p>
-    <p>D'abord, la règle des 5σ. Pour une distribution gaussienne, la probabilité qu'un point réel dépasse cinq écarts-types est inférieure à 6×10⁻⁷. Tout point au-delà de ce seuil est un artefact instrumental (rayon cosmique, saturation du CCD, corruption de données) et on le supprime.</p>
-    <p>Ensuite, la normalisation par la médiane. On divise chaque mesure de flux par la médiane de l'ensemble de la courbe. Un flare qui monte le flux à 150 % pendant une heure ne déplace presque pas la médiane sur 90 jours d'observations. La moyenne, elle, serait biaisée vers le haut. Après normalisation, deux étoiles de luminosités très différentes produisent des courbes directement comparables.</p>
-    <p>Enfin, on n'utilise pas la méthode <code>flatten()</code> de lightkurve. Elle ajuste et soustrait une tendance sur 401 points, ce qui efface au passage les creux de transit qu'on cherche à détecter.</p>
-    <div class="gallery">
-      <img src="assets/img/black-hole-hunters/cleaning.png" alt="Courbe brute vs courbe nettoyée par SignalCleaner" style="border-radius:10px;width:100%">
-      <img src="assets/img/black-hole-hunters/event-profiles.png" alt="Les trois signatures astrophysiques : transit, flare, microlensing" style="border-radius:10px;width:100%">
+    <div class="lead"><span class="n">03</span><h2>Décisions techniques</h2></div>
+    <p><strong>AstroFetcher</strong> encapsule les pannes de l'archive MAST derrière une seule méthode, <code>download_data</code> : bascule Kepler ↔ TESS si l'étoile manque d'une mission, repli sur un CSV local si l'API tombe, erreur explicite avec des identifiants qui marchent si les deux échouent. L'appelant reçoit toujours un DataFrame propre, quoi qu'il se passe en coulisses.</p>
+    <p><strong>SignalCleaner</strong> nettoie la courbe avant qu'AnomalyDetector la voie. Trois choix pèsent sur le résultat plus que le code qui les applique :</p>
+    <div class="decision-grid">
+      <div class="decision-card">
+        <span class="dc-title">5σ asymétrique</span>
+        <p class="dc-desc">Coupe le flux trop haut seulement. Un transit à −10σ reste intact.</p>
+      </div>
+      <div class="decision-card">
+        <span class="dc-title">Médiane, pas moyenne</span>
+        <p class="dc-desc">Un flare qui monte le flux de 150 % déplace la moyenne, pas la médiane.</p>
+      </div>
+      <div class="decision-card">
+        <span class="dc-title"><code>flatten()</code> écarté</span>
+        <p class="dc-desc">Sa fenêtre de 401 points efface le transit qu'on veut détecter.</p>
+      </div>
     </div>
+    <p style="margin-top:16px;font-size:13px;color:var(--steel);font-style:italic">Un quatrième réglage retire les points situés dans les heures suivant chaque changement de pointage du télescope, le temps que l'optique se stabilise thermiquement.</p>
   </section>
 
   <section class="p-sec reveal">
@@ -392,6 +426,7 @@
     <span class="tag">NumPy</span>
     <span class="tag">Matplotlib</span>
     <span class="tag">NASA API</span>
+    <span class="tag">Streamlit</span>
     <span class="tag">POO</span>
     <span class="tag">Traitement du signal</span>
     <span class="tag">Kepler · TESS</span>
