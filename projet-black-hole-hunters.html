@@ -45,7 +45,8 @@
   .decision-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     padding:18px 16px;display:flex;flex-direction:column;gap:8px}
   .decision-card .dc-title{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--heat)}
-  .decision-card .dc-desc{font-size:13.5px;color:var(--ink);line-height:1.5;margin:0}
+  .decision-card .dc-desc{font-size:13.5px;color:var(--ink);line-height:1.5;margin:0;
+    text-align:justify;text-align-last:left;hyphens:auto}
   @media(max-width:680px){.decision-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -304,7 +305,7 @@
     <p><strong>Les éruptions stellaires.</strong> Une explosion magnétique libère de l'énergie en quelques minutes puis décroît exponentiellement sur plusieurs heures. La montée abrupte suivie d'une longue traîne la distingue des autres événements <span class="cite">[Feinstein et al. 2025]</span>.</p>
     <p><strong>La microlentille gravitationnelle.</strong> Un objet massif passe entre l'observateur et l'étoile cible. Sa gravité courbe et amplifie temporairement la lumière selon le profil de Paczyński <span class="cite">[Paczyński 1986]</span>. C'est la seule méthode photométrique qui détecte des trous noirs isolés sans qu'ils émettent de lumière.</p>
     <p>Planet Hunters (Zooniverse) a prouvé que des bénévoles repèrent des événements que les algorithmes classiques ratent. À une courbe par minute par personne, inspecter manuellement les 930 000 étoiles des deux missions demanderait des milliers d'années-bénévoles. D'où l'automatisation.</p>
-    <img src="assets/img/black-hole-hunters/interface-zooniverse.png" alt="Page du projet « Black Hole Hunters » sur Zooniverse, où des bénévoles inspectent manuellement les courbes de lumière pour repérer des candidats microlentille" style="border-radius:12px;margin-top:22px;width:100%">
+    <img src="assets/img/black-hole-hunters/interface-zooniverse.webp" width="2200" height="1195" loading="lazy" alt="Page du projet « Black Hole Hunters » sur Zooniverse, où des bénévoles inspectent manuellement les courbes de lumière pour repérer des candidats microlentille" style="border-radius:12px;margin-top:22px;width:100%;height:auto">
   </section>
 
   <section class="p-sec reveal">
@@ -349,16 +350,16 @@
     <!-- INTRO : texte + illustration planète -->
     <div class="intro-grid">
       <p style="margin:0"><strong>TrES-2b</strong> est un Jupiter chaud découvert en 2006 par le Trans-atlantic Exoplanet Survey. Elle orbite l'étoile GSC 03549-02811 à 702 années-lumière dans la constellation du Dragon, bouclant un tour complet en 2,471 jours. Sa masse atteint 1,49 masses joviennes pour 1,36 rayons joviens. Sa surface dépasse 1 500 K. Son albédo géométrique est inférieur à 0,01, moins réfléchissant que du charbon. C'est la planète la plus sombre jamais découverte <span class="cite">[Kipping &amp; Spiegel 2011]</span>.</p>
-      <img src="assets/img/black-hole-hunters/nasa-reference.png"
+      <img src="assets/img/black-hole-hunters/nasa-reference.webp" width="2236" height="1432" loading="lazy"
            alt="TrES-2b — modélisation NASA Eyes on Exoplanets : albédo < 0,01, température ~1 500 K"
-           style="border-radius:12px;width:100%">
+           style="border-radius:12px;width:100%;height:auto">
     </div>
 
     <!-- RÉSULTATS OBTENUS : texte + courbe -->
     <p style="margin-top:32px"><strong>Ce que notre pipeline détecte.</strong> Sur la fenêtre d'observation BKJD 121–130, AnomalyDetector isole 3 creux de flux à 99 % de confiance. La méthode rolling-window baseline departure calcule un résidu local à chaque pas de temps. Les trois creux dépassent le seuil à 1σ de façon symétrique et périodique, signature propre d'un transit planétaire. Période mesurée entre les minima : <strong>2,47 jours</strong>. Profondeur des creux : environ <strong>1,5 %</strong> de flux bloqué.</p>
-    <img src="assets/img/black-hole-hunters/detection_tres_2.png"
+    <img src="assets/img/black-hole-hunters/detection_tres_2.webp" width="1440" height="720" loading="lazy"
          alt="Courbe de détection TrES-2b — 3 transits identifiés à 99 % de confiance, période 2,47 jours"
-         style="border-radius:10px;width:100%;margin-top:14px">
+         style="border-radius:10px;width:100%;height:auto;margin-top:14px">
 
     <!-- COMPARAISON NASA : tableau -->
     <p style="margin-top:32px"><strong>Comparaison avec les données publiées.</strong> O'Donovan et al. (2006) fournissent les valeurs de référence pour TrES-2b <span class="cite">[O'Donovan et al. 2006]</span>.</p>
